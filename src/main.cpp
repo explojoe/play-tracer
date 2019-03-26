@@ -10,8 +10,8 @@ struct Pixel {
 };
 
 int main(int argc, const char **argv) {
-    uint32_t w = std::stoi(argv[2]); // width
-    uint32_t h = std::stoi(argv[2]); // height
+    uint32_t w = 100; // width
+    uint32_t h = 100; // height
 
     Pixel *data = new Pixel[w * h];
     uint32_t stride = w * sizeof(Pixel);

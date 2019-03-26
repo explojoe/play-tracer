@@ -4,7 +4,7 @@ INCLUDE_FILES=$(wildcard include/*.hpp)
 OBJ_FILES=$(patsubst src/%.cpp,build/%.o,$(SRC_FILES))
 OBJ_FILES_OPTIMIZED=$(patsubst src/%.cpp,build/optimized/%.o,$(SRC_FILES))
 
-.PHONY: all test format clean
+.PHONY: all test format clean run
 
 all: | format test build/play-tracer
 
@@ -16,6 +16,10 @@ format:
 
 clean: 
 	rm -rf build
+
+run: build/play-tracer
+	build/play-tracer out.png
+	feh -Z out.png
 
 build/play-tracer: $(filter-out build/optimized/tests.o,$(OBJ_FILES_OPTIMIZED))
 	@mkdir -p build
