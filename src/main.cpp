@@ -1,6 +1,7 @@
 #include <iostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h" // Full credit to Sean Barrett
+#include "catch.hpp"
+#include "stb_image_write.h"
 
 struct Pixel {
     uint8_t r;
