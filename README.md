@@ -4,5 +4,6 @@ time travel.
 
 
 ## Acknowledgement
-stb_image_write.h was written by Sean Barrett.
-This is used to ease the process of outputting images.
+stb_image_write.h was written by Sean Barrett. This is used to ease the process
+of outputting images.<br/>catch.hpp was made by Catch Org. This is used for C++
+unit testing.
