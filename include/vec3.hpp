@@ -14,6 +14,8 @@ class Vec3 {
         Vec3 operator*(const float) const;
         Vec3 operator/(const float) const;
         Vec3 operator-() const;
+        bool operator==(const Vec3) const;
+        bool operator!=(const Vec3) const;
 };
 
 Vec3 operator*(const float, const Vec3);

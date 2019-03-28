@@ -1,6 +1,7 @@
 #include <iostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "catch.hpp"
+#include "ray.hpp"
 #include "stb_image_write.h"
 
 struct Pixel {
