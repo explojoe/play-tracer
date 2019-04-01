@@ -9,6 +9,9 @@ class Vec3 {
         Vec3();
         Vec3(float, float, float);
 
+        float magnitude() const;
+        Vec3 normalized() const;
+
         Vec3 operator+(const Vec3) const; 
         Vec3 operator-(const Vec3) const;
         Vec3 operator*(const float) const;

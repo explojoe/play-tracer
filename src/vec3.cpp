@@ -5,6 +5,16 @@ Vec3::Vec3() : x(0), y(0), z(0) {}
 
 Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 
+float Vec3::magnitude() const { return sqrt(x * x + y * y + z * z); }
+
+Vec3 Vec3::normalized() const {
+    float mag = magnitude();
+    float x1 = x / mag;
+    float y1 = y / mag;
+    float z1 = z / mag;
+    return Vec3(x1, y1, z1);
+}
+
 Vec3 Vec3::operator+(const Vec3 v) const {
     return Vec3(x + v.x, y + v.y, z + v.z);
 }
@@ -46,6 +56,14 @@ Vec3 cross(const Vec3 v1, const Vec3 v2) {
 
 TEST_CASE("Dot products are computed", "[Vec3]") {
     REQUIRE(dot(Vec3(1, 2, 3), Vec3()) == 0);
+}
+
+TEST_CASE("Cross products are computed", "[Vec3]") {
     REQUIRE(cross(Vec3(1, 2, 3), Vec3(3, 2, 1)) !=
             cross(Vec3(3, 2, 1), Vec3(1, 2, 3)));
+}
+
+TEST_CASE("Normalization is checked", "[Vec3]") {
+    REQUIRE(Vec3(0, 3, 4).normalized().magnitude() ==
+            Vec3(0, 0, 5).normalized().magnitude());
 }

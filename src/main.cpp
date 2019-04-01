@@ -1,8 +1,10 @@
 #include <iostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "catch.hpp"
+#include "mat44.hpp"
 #include "ray.hpp"
 #include "stb_image_write.h"
+#include <cstdlib>
 
 struct Pixel {
     uint8_t r;
@@ -23,6 +25,7 @@ int main(int argc, const char **argv) {
             data[y * w + x].b = x * y;
         }
     }
+
     stbi_write_png(argv[1], w, h, 3, data, stride);
 
     return 0;
