@@ -234,6 +234,11 @@ Vec3 Mat44::transformNormal(Vec3 normal) const {
 TEST_CASE("Inverse matrices are checked.", "[Mat44]") {
     float a[16] = {1, 2, 4, 9, 2, 4, 2, 4, 7, 7, 7, 7, -6, 3, 3, 3};
     Mat44 mat1 = Mat44(a);
-    REQUIRE(mat1 == mat1.transpose().transpose());
     REQUIRE(mat1 == mat1.inverse().inverse());
+}
+
+TEST_CASE("Transpose matrices are checked.", "[Mat44]") {
+    float a[16] = {1, 2, 4, 9, 2, 4, 2, 4, 7, 7, 7, 7, -6, 3, 3, 3};
+    Mat44 mat1 = Mat44(a);
+    REQUIRE(mat1 == mat1.transpose().transpose());
 }
