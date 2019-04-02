@@ -39,6 +39,13 @@ bool Vec3::operator==(const Vec3 v) const {
 
 bool Vec3::operator!=(const Vec3 v) const { return !((*this) == v); }
 
+std::string Vec3::toString() const {
+    std::string s;
+    s += "<" + std::to_string(x) + ", " + std::to_string(y) + ", " +
+         std::to_string(z) + ">";
+    return s;
+}
+
 Vec3 operator*(const float scalar, Vec3 v) {
     return Vec3(v.x * scalar, v.y * scalar, v.z * scalar);
 }

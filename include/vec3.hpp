@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 class Vec3 {
     public:
         float x;
@@ -19,6 +19,7 @@ class Vec3 {
         Vec3 operator-() const;
         bool operator==(const Vec3) const;
         bool operator!=(const Vec3) const;
+        std::string toString() const;
 };
 
 Vec3 operator*(const float, const Vec3);

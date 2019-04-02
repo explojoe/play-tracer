@@ -105,7 +105,7 @@ bool Mat44::operator!=(Mat44 other) const { return !((*this) == other); }
 std::string Mat44::toString() const {
     std::string s;
     for (uint32_t a = 0; a < 4; a++) {
-        s += "[";
+        s += "\n[";
         for (uint32_t b = 0; b < 4; b++) {
             if (b != 0) {
                 s += ", " + std::to_string(data[a * 4 + b]);
@@ -113,7 +113,7 @@ std::string Mat44::toString() const {
                 s += std::to_string(data[a * 4 + b]);
             }
         }
-        s += "]\n";
+        s += "]";
     }
     return s;
 }
@@ -229,6 +229,14 @@ Vec3 Mat44::transformNormal(Vec3 normal) const {
     Mat44 mat = *this;
     mat = mat.inverse().transpose();
     return mat.transformPoint(normal);
+}
+
+TEST_CASE("Matrix Multiplication is tested", "[Mat44]") {
+    float a[16] = {1, 2, 3, 4, 5, 6, 7, 8, -1, -2, -5, -5, 6, 2, 18, 2};
+    float b[16] = {1, 19, 2, 4, 6, 18, 22, -4, -6, 7, 55, 3, -4, -13, 9, 10};
+    float c[16] = {-21, 24,  247,  45,  -33, 148, 599,  97,
+                   37,  -25, -366, -61, -98, 250, 1064, 90};
+    REQUIRE(Mat44(a) * Mat44(b) == Mat44(c));
 }
 
 TEST_CASE("Inverse matrices are checked.", "[Mat44]") {
