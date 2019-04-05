@@ -205,6 +205,8 @@ Mat44 Mat44::inverse() const {
 // vectors are (x,y,z,0)
 Vec3 Mat44::transformVector(const Vec3 pnt) const {
     float a, b, c;
+    // std::cout << (*this).toString() + "\n";
+    // std::cout << pnt.toString() + "\n";
     a = pnt.x * data[0 * 4 + 0] + pnt.y * data[0 * 4 + 1] +
         pnt.z * data[0 * 4 + 2];
     b = pnt.x * data[1 * 4 + 0] + pnt.y * data[1 * 4 + 1] +

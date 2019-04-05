@@ -1,5 +1,6 @@
 #include "sphere.hpp"
 #include "object.hpp"
+#include <iostream>
 
 Sphere::Sphere(const Mat44 m) : objectToWorld(m), worldToObject(m.inverse()) {}
 
@@ -10,7 +11,7 @@ bool Sphere::intersect(const Vec3 orig, const Vec3 dir, float &t) const {
     Vec3 dir2 = worldToObject.transformVector(dir);
 
     Vec3 L = -orig2;
-    float tca = dot(L, dir2);
+    float tca = dot(L, dir2) / dir2.magnitude(); // scalar projection
     float d2 = dot(L, L) - tca * tca;
     if (d2 > 1) {
         return false;

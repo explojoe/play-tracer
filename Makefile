@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Iinclude -Iinclude/contrib -march=native -g
+CXXFLAGS=-Wall -Iinclude -Iinclude/contrib -march=native
 SRC_FILES=$(wildcard src/*.cpp)
 INCLUDE_FILES=$(wildcard include/*.hpp)
 OBJ_FILES=$(patsubst src/%.cpp,build/%.o,$(SRC_FILES))
@@ -19,7 +19,7 @@ clean:
 
 run: build/play-tracer
 	build/play-tracer out.png
-	feh -Z out.png
+	feh -Z --force-aliasing out.png
 
 build/play-tracer: $(filter-out build/optimized/tests.o,$(OBJ_FILES_OPTIMIZED))
 	@mkdir -p build

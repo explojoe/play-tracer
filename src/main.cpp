@@ -51,12 +51,13 @@ Pixel castRay(const Vec3 &orig, const Vec3 &dir, Camera &cam,
     Object *hitObject = nullptr;
     float t;
     if (trace(orig, dir, objects, t, &hitObject)) {
+
         Vec3 pHit = orig + dir * t;
         Vec3 nHit;
         hitObject->getSurfaceInfo(pHit, nHit);
-        hitColor = dot(nHit, -dir) * hitObject->color;
-        hitColor = Vec3(abs(nHit.x)*100, abs(nHit.y)*100, abs(nHit.z)*100);
-        //hitColor = Vec3(255,255,255);
+        float num = dot(nHit.normalized(), (-dir).normalized());
+        hitColor = hitObject->color;
+        hitColor = hitColor.normalized() * num;
     }
     Pixel hit;
     hit.r = 255 * clamp(0, 1, hitColor.x);
@@ -67,7 +68,6 @@ Pixel castRay(const Vec3 &orig, const Vec3 &dir, Camera &cam,
 
 Pixel *render(Camera &cam, std::vector<Object *> &objects) {
     Pixel *frameBuffer = new Pixel[cam.width * cam.height];
-    uint32_t stride = cam.width * sizeof(Pixel);
     float scale = tan(deg2rad(cam.fov * 0.5));
     float imageAspectRatio = cam.width / (float)cam.height;
     Vec3 orig = cam.camToWorld.transformPoint(Vec3());
@@ -99,10 +99,9 @@ int main(int argc, const char **argv) {
 
     std::vector<Object *> objects;
     Mat44 objectWorldMat = Mat44();
-    objectWorldMat = Mat44::translate(Vec3(20, 10, -10.1));
+    objectWorldMat = Mat44::translate(Vec3(0, 0, -3));
     objects.push_back(new Sphere(objectWorldMat));
-    objects[0]->color = Vec3(100,255,50);
-    std::cout << std::to_string(objects.size()) + "\n";
+    objects[0]->color = Vec3(100, 255, 50);
 
     Pixel *data = render(cam, objects);
     uint32_t stride = w * sizeof(Pixel);
