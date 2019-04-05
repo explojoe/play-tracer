@@ -14,17 +14,25 @@ Mat44::Mat44() {
     }
 }
 
-Mat44::Mat44(float data2[16]) { memcpy(data, data2, sizeof(data)); }
+Mat44::Mat44(const float data2[16]) { memcpy(data, data2, sizeof(data)); }
 
-Mat44 Mat44::scale(Vec3 translateBy) {
+Mat44 Mat44::translate(const Vec3 translateBy) {
     Mat44 mat;
-    mat.data[0] = translateBy.x;
-    mat.data[5] = translateBy.y;
-    mat.data[10] = translateBy.z;
+    mat.data[3] = translateBy.x;
+    mat.data[7] = translateBy.y;
+    mat.data[11] = translateBy.z;
     return mat;
 }
 
-Mat44 Mat44::rotatePitch(float pitch) {
+Mat44 Mat44::scale(const Vec3 scaleBy) {
+    Mat44 mat;
+    mat.data[0] = scaleBy.x;
+    mat.data[5] = scaleBy.y;
+    mat.data[10] = scaleBy.z;
+    return mat;
+}
+
+Mat44 Mat44::rotatePitch(const float pitch) {
     float cosA = cos(pitch);
     float sinA = sin(pitch);
     Mat44 mat;
@@ -35,7 +43,7 @@ Mat44 Mat44::rotatePitch(float pitch) {
     return mat;
 }
 
-Mat44 Mat44::rotateYaw(float yaw) {
+Mat44 Mat44::rotateYaw(const float yaw) {
     float cosA = cos(yaw);
     float sinA = sin(yaw);
     Mat44 mat;
@@ -46,7 +54,7 @@ Mat44 Mat44::rotateYaw(float yaw) {
     return mat;
 }
 
-Mat44 Mat44::rotateRoll(float roll) {
+Mat44 Mat44::rotateRoll(const float roll) {
     float cosA = cos(roll);
     float sinA = sin(roll);
     Mat44 mat;
@@ -57,7 +65,7 @@ Mat44 Mat44::rotateRoll(float roll) {
     return mat;
 }
 
-Mat44 Mat44::rotate(float angle, Vec3 axis) {
+Mat44 Mat44::rotate(const float angle, const Vec3 axis) {
     float cosA = cos(angle);
     float sinA = sin(angle);
     Mat44 mat;
@@ -73,7 +81,7 @@ Mat44 Mat44::rotate(float angle, Vec3 axis) {
     return mat;
 }
 
-Mat44 Mat44::operator*(Mat44 other) const {
+Mat44 Mat44::operator*(const Mat44 other) const {
     Mat44 mat;
     float total;
     for (uint32_t a = 0; a < 4; a++) {
@@ -88,7 +96,7 @@ Mat44 Mat44::operator*(Mat44 other) const {
     return mat;
 }
 
-bool Mat44::operator==(Mat44 other) const {
+bool Mat44::operator==(const Mat44 other) const {
     for (uint32_t a = 0; a < 4; a++) {
         for (uint32_t b = 0; b < 4; b++) {
             float total = data[a * 4 + b] - other.data[a * 4 + b];
@@ -100,7 +108,7 @@ bool Mat44::operator==(Mat44 other) const {
     return true;
 }
 
-bool Mat44::operator!=(Mat44 other) const { return !((*this) == other); }
+bool Mat44::operator!=(const Mat44 other) const { return !((*this) == other); }
 
 std::string Mat44::toString() const {
     std::string s;
@@ -195,7 +203,7 @@ Mat44 Mat44::inverse() const {
 }
 
 // vectors are (x,y,z,0)
-Vec3 Mat44::transformVector(Vec3 pnt) const {
+Vec3 Mat44::transformVector(const Vec3 pnt) const {
     float a, b, c;
     a = pnt.x * data[0 * 4 + 0] + pnt.y * data[0 * 4 + 1] +
         pnt.z * data[0 * 4 + 2];
@@ -207,7 +215,7 @@ Vec3 Mat44::transformVector(Vec3 pnt) const {
 }
 
 // points are (x,y,z,1)
-Vec3 Mat44::transformPoint(Vec3 pnt) const {
+Vec3 Mat44::transformPoint(const Vec3 pnt) const {
     float a;
     float b;
     float c;
@@ -225,7 +233,7 @@ Vec3 Mat44::transformPoint(Vec3 pnt) const {
 }
 
 // normals are multiplied by the transpose of the inverse matrix
-Vec3 Mat44::transformNormal(Vec3 normal) const {
+Vec3 Mat44::transformNormal(const Vec3 normal) const {
     Mat44 mat = *this;
     mat = mat.inverse().transpose();
     return mat.transformPoint(normal);

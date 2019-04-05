@@ -7,5 +7,5 @@ class Ray {
         Vec3 dir;
 
         Ray();
-        Ray(const Vec3&,const Vec3&);
+        Ray(const Vec3,const Vec3);
 };

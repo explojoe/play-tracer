@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Iinclude -Iinclude/contrib -march=native
+CXXFLAGS=-Wall -Iinclude -Iinclude/contrib -march=native -g
 SRC_FILES=$(wildcard src/*.cpp)
 INCLUDE_FILES=$(wildcard include/*.hpp)
 OBJ_FILES=$(patsubst src/%.cpp,build/%.o,$(SRC_FILES))
