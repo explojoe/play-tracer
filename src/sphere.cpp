@@ -29,7 +29,7 @@ bool Sphere::intersect(const Vec3 orig, const Vec3 dir, float &t) const {
             return false; // both are negative, no intersection
         }
     }
-    t = t0;
+    t = t0/dir2.magnitude();
     return true;
 }
 
