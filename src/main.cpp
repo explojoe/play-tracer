@@ -51,11 +51,12 @@ Pixel castRay(const Vec3 &orig, const Vec3 &dir, Camera &cam,
     Object *hitObject = nullptr;
     float t;
     if (trace(orig, dir, objects, t, &hitObject)) {
-
         Vec3 pHit = orig + dir * t;
         Vec3 nHit;
         hitObject->getSurfaceInfo(pHit, nHit);
         float num = dot(nHit.normalized(), (-dir).normalized());
+        float num2 = num;
+        Vec3 arrow = num2*(dir.normalized());
         hitColor = hitObject->color;
         hitColor = hitColor.normalized() * num;
     }
@@ -88,8 +89,8 @@ Pixel *render(Camera &cam, std::vector<Object *> &objects) {
 }
 
 int main(int argc, const char **argv) {
-    uint32_t w = 200; // width
-    uint32_t h = 200; // height
+    uint32_t w = 400; // width
+    uint32_t h = 400; // height
 
     Camera cam;
     cam.width = w;
@@ -102,6 +103,9 @@ int main(int argc, const char **argv) {
     objectWorldMat = Mat44::translate(Vec3(0, 0, -3));
     objects.push_back(new Sphere(objectWorldMat));
     objects[0]->color = Vec3(100, 255, 50);
+
+    objects.push_back(new Sphere(Mat44::translate(Vec3(-2, -2, -8))));
+    objects[1]->color = Vec3(255, 100, 50);
 
     Pixel *data = render(cam, objects);
     uint32_t stride = w * sizeof(Pixel);
