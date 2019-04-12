@@ -33,8 +33,11 @@ bool Sphere::intersect(const Vec3 orig, const Vec3 dir, float &t) const {
     return true;
 }
 
-void Sphere::getSurfaceInfo(const Vec3 pHit, Vec3 &nHit) const {
+void Sphere::getSurfaceInfo(const Vec3 pHit, Vec3 &nHit, Vec2 &tex) const {
     Vec3 pHit2 = worldToObject.transformPoint(pHit);
     nHit = pHit2.normalized();
+
+    tex.x = (1 + atan2(nHit.z, nHit.x) / M_PI) * 0.5;
+    tex.y = acosf(nHit.y) / M_PI;
     nHit = objectToWorld.transformNormal(nHit);
 }

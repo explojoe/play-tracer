@@ -5,6 +5,7 @@
 #include "object.hpp"
 #include "ray.hpp"
 #include "sphere.hpp"
+#include "vec2.hpp"
 #include "stb_image_write.h"
 #include <cstdlib>
 
@@ -31,6 +32,13 @@ inline float clamp(const float &low, const float &high, const float &value) {
 // converts from degrees to radians
 inline float deg2rad(const float &deg) { return deg * M_PI / 180; }
 
+
+Vec3 combine(const Vec3 &a, const Vec3 &b, const float &value) {
+    Vec3 partA = a * (1 - value);
+    Vec3 partB = b * value;
+    return (partA + partB);
+}
+
 bool trace(const Vec3 &orig, const Vec3 &dir,
            const std::vector<Object *> &objects, float &tNear,
            Object **hitObject) {
@@ -53,12 +61,17 @@ Pixel castRay(const Vec3 &orig, const Vec3 &dir, Camera &cam,
     if (trace(orig, dir, objects, t, &hitObject)) {
         Vec3 pHit = orig + dir * t;
         Vec3 nHit;
-        hitObject->getSurfaceInfo(pHit, nHit);
+        Vec2 tex;
+        hitObject->getSurfaceInfo(pHit, nHit, tex);
+
+        float scale = 12;
+        float texture = (fmodf(tex.x * scale, 1) > 0.5) ^ (fmodf(tex.y * scale, 1) > 0.5);
+
         float num = dot(nHit.normalized(), (-dir).normalized());
-        float num2 = num;
-        Vec3 arrow = num2*(dir.normalized());
+        num = abs(num);
         hitColor = hitObject->color;
         hitColor = hitColor.normalized() * num;
+        hitColor = combine(hitColor,hitColor*0.7, texture);
     }
     Pixel hit;
     hit.r = 255 * clamp(0, 1, hitColor.x);
@@ -95,7 +108,7 @@ int main(int argc, const char **argv) {
     Camera cam;
     cam.width = w;
     cam.height = h;
-    cam.camToWorld = Mat44();
+    cam.camToWorld = Mat44::translate(Vec3(0,0,7));
     cam.fov = 60;
 
     std::vector<Object *> objects;
@@ -104,8 +117,11 @@ int main(int argc, const char **argv) {
     objects.push_back(new Sphere(objectWorldMat));
     objects[0]->color = Vec3(100, 255, 50);
 
-    objects.push_back(new Sphere(Mat44::translate(Vec3(-2, -2, -8))));
+    objects.push_back(new Sphere(Mat44::translate(Vec3(-2, -2, 1))*Mat44::scale(Vec3(2,1,1))));
     objects[1]->color = Vec3(255, 100, 50);
+
+    objects.push_back(new Sphere(Mat44::translate(Vec3(2,4,-10))*Mat44::scale(Vec3(0.5,3,1))));
+    objects[2]->color = Vec3(200,50,150);
 
     Pixel *data = render(cam, objects);
     uint32_t stride = w * sizeof(Pixel);

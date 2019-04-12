@@ -2,7 +2,7 @@
 Playing around with ray tracing, unit tests, image manipulaton, and occasionally
 time travel.
 
-![sphere image](https://imgur.com/CifG0Xj.png)
+![sphere image](https://imgur.com/FyFk0PF.png)
 
 
 ## Acknowledgement
